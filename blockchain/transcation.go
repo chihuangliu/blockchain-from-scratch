@@ -5,14 +5,14 @@ import (
 	"time"
 )
 
-type Transcation struct {
+type Transaction struct {
 	senderAdress   string
 	receiverAdress string
 	amount         float64
 	timestamp      int64
 }
 
-func (tr *Transcation) PrintTransction() {
+func (tr *Transaction) PrintTransaction() {
 	fmt.Printf("--------\n")
 	fmt.Printf(" Sender Adress: %s\n", tr.senderAdress)
 	fmt.Printf(" Reciever Adress: %s\n", tr.receiverAdress)
@@ -20,9 +20,9 @@ func (tr *Transcation) PrintTransction() {
 	fmt.Printf(" timestamp: %d\n", tr.timestamp)
 }
 
-func NewTransaction(senderAdress string, receiverAdress string, amount float64) *Transcation {
+func NewTransaction(senderAdress string, receiverAdress string, amount float64) *Transaction {
 	timestamp := time.Now().Unix()
-	return &Transcation{
+	return &Transaction{
 		senderAdress:   senderAdress,
 		receiverAdress: receiverAdress,
 		amount:         amount,

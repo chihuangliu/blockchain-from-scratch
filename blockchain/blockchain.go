@@ -3,7 +3,7 @@ package blockchain
 import "fmt"
 
 type Blockchain struct {
-	TransactionPool []*Transcation
+	TransactionPool []*Transaction
 	Chain           []*Block
 }
 
@@ -19,7 +19,7 @@ func InitBlockchain() *Blockchain {
 	return bc
 }
 
-func (bc *Blockchain) AddTransactionToPool(tr *Transcation) {
+func (bc *Blockchain) AddTransactionToPool(tr *Transaction) {
 	bc.TransactionPool = append(bc.TransactionPool, tr)
 }
 
@@ -31,18 +31,27 @@ func (bc *Blockchain) PrintChain() {
 	}
 }
 
-func (bc *Blockchain) PrintTranscationPool() {
-	fmt.Printf("Transcations in Pools:\n")
+func (bc *Blockchain) PrintTransactionPool() {
+	fmt.Printf("Transacations in Pools:\n")
 	for _, tc := range bc.TransactionPool {
-		tc.PrintTransction()
+		tc.PrintTransaction()
 		fmt.Printf("\n")
 	}
 }
 
+func (bc *Blockchain) lastBlock() *Block {
+	return bc.Chain[len(bc.Chain)-1]
+}
+
 func (bc *Blockchain) GenerateHashOfLastBlock() string {
-	lastBlock := bc.Chain[len(bc.Chain)-1]
-	newHash := lastBlock.GenerateHash()
+	lastBlock := bc.lastBlock()
+	newHash, _ := lastBlock.GenerateHash()
 	return newHash
+}
+
+func (bc *Blockchain) ProofOfWorkOfLastBlock(difficulty int) int64 {
+	lastBlock := bc.lastBlock()
+	return lastBlock.ProofOfWork(difficulty)
 }
 
 func (bc *Blockchain) TransferTransactionsFromPoolToBlock() {
@@ -51,5 +60,5 @@ func (bc *Blockchain) TransferTransactionsFromPoolToBlock() {
 	for _, tr := range bc.TransactionPool {
 		lastBlock.transactions = append(lastBlock.transactions, tr)
 	}
-	bc.TransactionPool = []*Transcation{}
+	bc.TransactionPool = []*Transaction{}
 }
