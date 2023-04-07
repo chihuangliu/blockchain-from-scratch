@@ -5,14 +5,16 @@ import "fmt"
 type Blockchain struct {
 	TransactionPool []*Transaction
 	Chain           []*Block
+	address         string
 }
 
 func (bc *Blockchain) AddBlock(block *Block) {
 	bc.Chain = append(bc.Chain, block)
 }
 
-func InitBlockchain() *Blockchain {
+func InitBlockchain(address string) *Blockchain {
 	bc := new(Blockchain)
+	bc.address = address
 	initialBlock := NewBlock(10, Sha256Hash())
 
 	bc.AddBlock(initialBlock)
@@ -61,4 +63,9 @@ func (bc *Blockchain) TransferTransactionsFromPoolToBlock() {
 		lastBlock.transactions = append(lastBlock.transactions, tr)
 	}
 	bc.TransactionPool = []*Transaction{}
+}
+
+func (bc *Blockchain) RewardMiner(minerAddress string, amount float64) {
+	newTran := NewTransaction(bc.address, minerAddress, amount)
+	bc.TransactionPool = append(bc.TransactionPool, newTran)
 }

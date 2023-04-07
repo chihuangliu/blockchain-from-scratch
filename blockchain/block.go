@@ -64,7 +64,7 @@ func (block *Block) PrintBlock() {
 func (block *Block) ProofOfWork(difficulty int) int64 {
 	n := int64(0)
 	for {
-		success := block.miningNonce(difficulty, n)
+		success := block.isCorrectNonce(difficulty, n)
 		if success {
 			break
 		}
@@ -74,7 +74,7 @@ func (block *Block) ProofOfWork(difficulty int) int64 {
 	return n
 }
 
-func (block *Block) miningNonce(difficulty int, nonce int64) bool {
+func (block *Block) isCorrectNonce(difficulty int, nonce int64) bool {
 	zeros := strings.Repeat("0", difficulty)
 
 	transactions := block.transactions

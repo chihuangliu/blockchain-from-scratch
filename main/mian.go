@@ -3,9 +3,11 @@ package main
 import "blockchain-from-sratch/blockchain"
 
 const DIFFICULTY = 3
+const MINER_REWARD = 10.0
+const BLOCKCHAIN_ADDRESS = "chi-huang-blockchain.io"
 
 func main() {
-	bc := blockchain.InitBlockchain()
+	bc := blockchain.InitBlockchain(BLOCKCHAIN_ADDRESS)
 
 	newHash := bc.GenerateHashOfLastBlock()
 	newNonce := bc.ProofOfWorkOfLastBlock(DIFFICULTY)
@@ -29,6 +31,8 @@ func main() {
 	newNonce2 := bc.ProofOfWorkOfLastBlock(DIFFICULTY)
 	newBlock2 := blockchain.NewBlock(newNonce2, newHash2)
 	bc.AddBlock(newBlock2)
+	bc.RewardMiner("Amo", MINER_REWARD)
 
 	bc.PrintChain()
+	bc.PrintTransactionPool()
 }
